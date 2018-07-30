@@ -4,7 +4,7 @@ Student Project during Google Front-End Development Nanodegree Program at Udacit
 
 The starter template provides a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.
 
-##How to run:
+## How to run:
 * go to https://github.com/anikonomova/reactnd-project-myreads-starter
 * clone or download the repository
 * install all project dependencies with `npm install`
