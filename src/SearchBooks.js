@@ -6,6 +6,26 @@ import Book from './Book';
 
 class SearchBooks extends Component {
 
+    state = {
+        query: '',
+        searchedBooks: [],
+    }
+
+//Search method
+
+    updateQuery = (query) => {
+        this.setState({ query, seardchedBooks: [] });
+        if (query.length > 2) {
+            BooksAPI.search(query).then((searchedBooks) => {
+                this.setState({ searchedBooks })
+              })
+        } else {
+            this.setState({
+                searchedBooks: []
+            });
+        }
+    }
+
     render() {
         const { changeShelf } = this.props;
         const { query, searchedBooks } = this.state;
