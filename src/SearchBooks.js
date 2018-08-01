@@ -14,15 +14,20 @@ class SearchBooks extends Component {
 //Search method
 
     updateQuery = (query) => {
-        this.setState({ query, seardchedBooks: [] });
+        this.setState({ query, searchedBooks: [] })
         if (query.length > 2) {
             BooksAPI.search(query).then((searchedBooks) => {
+              if (searchedBooks.error) {
+                this.setState({ searchedBooks: [] });
+                const noResults = React.createElement('div', null,
+                React.createElement('strong', null, 'No search results... Try again :)!')
+);
+              } else {
                 this.setState({ searchedBooks })
-              })
+              }
+            })
         } else {
-            this.setState({
-                searchedBooks: []
-            });
+            this.setState({ searchedBooks: [] });
         }
     }
 
