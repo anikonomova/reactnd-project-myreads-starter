@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
 
@@ -32,9 +33,13 @@ class BooksApp extends Component {
 
   // Change shelfs
   changeShelf = (book,shelf)=>{
-    BooksAPI.update(book,shelf).then((result)=>{
-      this.getAllBooks();
-    });
+    BooksAPI.update(book, shelf)
+      .then(() => {
+        book.shelf = shelf;
+        this.setState(state => ({
+          books: state.books.filter(item => item.id !== book.id).concat([book])
+        }))
+      });
   }
 
   render() {
@@ -54,7 +59,7 @@ class BooksApp extends Component {
             )} />
 
             <button className="open-search">
-                <a href="/search">Search</a>
+                <Link to="/search">Search</Link>
             </button>
         </div>
     )
