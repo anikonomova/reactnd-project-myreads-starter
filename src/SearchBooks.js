@@ -8,46 +8,61 @@ class SearchBooks extends Component {
 
     state = {
         query: '',
-        searchedBooks: [],
+        books: [],
     }
 
 //Search method
 
     updateQuery = (query) => {
-        this.setState({ query, searchedBooks: [] })
+        this.setState({ query, books: [] })
         if (query.length > 2) {
-            BooksAPI.search(query).then((searchedBooks) => {
-              if (searchedBooks.error) {
-                this.setState({ searchedBooks: [] });
-                const noResults = React.createElement('div', null,
-                React.createElement('strong', null, 'No search results... Try again :)!')
-);
-              } else {
-                this.setState({ searchedBooks })
-              }
-            })
+            BooksAPI.search(query).then((searched) => {
+                    if(query === this.state.query)  {
+                        this.setState({
+                            books: searched.map((book) => {
+                                let library = this.props.books.find((b) =>
+                                (b.id === book.id));
+                                book.shelf = library ? library.shelf : 'none';
+                                return book;
+                            })
+                        });
+
+                } else {
+                    this.setState({
+                        books: []
+                    });
+                }
+            });
         } else {
-            this.setState({ searchedBooks: [] });
+            this.setState({
+                books: []
+            });
         }
-    }
+}
 
     render() {
-        const { changeShelf } = this.props;
-        const { query, searchedBooks } = this.state;
+        const {  changeShelf } = this.props;
+        const { query, books } = this.state;
 
         return(
             <div className="search-books">
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text" placeholder="Search by title or author" value={ query } onChange={(e) => this.updateQuery(e.target.value)}/>
+                        <input
+                        type="text"
+                        placeholder="Search by title or author"
+                        value={ query } onChange={(e) => this.updateQuery(e.target.value)}/>
                     </div>
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                    {searchedBooks.map((book, index) => (
+                    {books.map((book, index) => (
                         <li key={ index }>
-                            <Book book={ book } books={ searchedBooks } changeShelf={ changeShelf } />
+                            <Book
+                            book={ book }
+                            books={ books }
+                            changeShelf={ changeShelf } />
                         </li>
                     ))}
                     </ol>
