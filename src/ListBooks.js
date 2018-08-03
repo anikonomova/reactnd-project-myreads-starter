@@ -2,36 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Book from './Book.js';
 
-class ListBooks extends Component{
+function ListBooks (props) {
 
-  render(){
-
-    const currentlyReadingBooks=this.props.books.filter((book=>book.shelf==='currentlyReading')).map((book)=>{
+      const currentlyReadingBooks=props.books.filter((book=>book.shelf==='currentlyReading')).map((book)=>{
       return (
         <li key={book.id}>
           <Book
             book={book}
-            changeShelf={this.props.changeShelf}
+            changeShelf={props.changeShelf}
           />
         </li>
       )
     })
-    const wantToReadBooks=this.props.books.filter((book=>book.shelf==='wantToRead')).map((book)=>{
+    const wantToReadBooks=props.books.filter((book=>book.shelf==='wantToRead')).map((book)=>{
       return (
         <li key={book.id}>
           <Book
             book={book}
-            changeShelf={this.props.changeShelf}
+            changeShelf={props.changeShelf}
           />
         </li>
       )
     })
-    const readBooks=this.props.books.filter((book=>book.shelf==='read')).map((book)=>{
+    const readBooks=props.books.filter((book=>book.shelf==='read')).map((book)=>{
       return (
         <li key={book.id}>
           <Book
             book={book}
-            changeShelf={this.props.changeShelf}
+            changeShelf={props.changeShelf}
           />
         </li>
       )
@@ -69,11 +67,5 @@ class ListBooks extends Component{
         </div>
       </div>
     )
-  }
 }
-
-ListBooks.propTypes = {
-    changeShelf: PropTypes.func.isRequired
-}
-
 export default ListBooks;
