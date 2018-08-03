@@ -17,7 +17,9 @@ class SearchBooks extends Component {
         this.setState({ query, books: [] })
         if (query.length > 2) {
             BooksAPI.search(query).then((searched) => {
-                    if(query === this.state.query)  {
+              if (searched.error) {
+                  this.setState({ books: [] });
+              } else if (query.trim())  {
                         this.setState({
                             books: searched.map((book) => {
                                 let library = this.props.books.find((b) =>
@@ -25,9 +27,8 @@ class SearchBooks extends Component {
                                 book.shelf = library ? library.shelf : 'none';
                                 return book;
                             })
-                        });
-
-                } else {
+                          })
+                        } else {
                     this.setState({
                         books: []
                     });
